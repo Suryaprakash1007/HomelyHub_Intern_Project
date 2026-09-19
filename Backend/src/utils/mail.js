@@ -28,13 +28,18 @@ const sendMail = async (options) => {
   // use and the login for it. All of it sits in .env.
   // NOTE: line below says process.emit, it should be
   // process.env. A small typo, good one to spot.
+  const host = process.env.MAILTRAP_SMTP_HOST || process.env["MAIL TRAP_SMTP_HOST"] || "sandbox.smtp.mailtrap.io";
+  const port = Number(process.env.MAILTRAP_SMTP_PORT || process.env["MAIL TRAP_SMTP_PORT"]) || 2525;
+  const user = process.env.MAILTRAP_SMTP_USER || process.env["MAIL TRAP_SMTP_USER"] || "7d9b28cdcfc107";
+  const pass = process.env.MAILTRAP_SMTP_PASS || process.env["MAIL TRAP_SMTP_PASS"] || "8ceaf3c2d75e45";
+
   const transporter = nodemailer.createTransport({
-    host: process.env.MAILTRAP_SMTP_HOST,
-    port: Number(process.env.MAILTRAP_SMTP_PORT) || 2525,
+    host,
+    port,
     secure: false,
     auth: {
-      user: process.env.MAILTRAP_SMTP_USER,
-      pass: process.env.MAILTRAP_SMTP_PASS,
+      user,
+      pass,
     },
   });
 

@@ -291,9 +291,8 @@ const forgotPassword = async (req, res) => {
     // token, and it would ask for passwordConfirm again.
     await user.save({ validateBeforeSave: false });
 
-    // The link the user will click. It points at the FRONTEND
-    // address, with the plain token at the end.
-    const resetURL = `${process.env.ORIGIN_ACCESS_URL}/user/resetPassword/${resetToken}`;
+    const origin = process.env.ORIGIN_ACCESS_URL || req.get("origin") || "https://homelyhubinternproject.netlify.app";
+    const resetURL = `${origin}/user/resetPassword/${resetToken}`;
 
     // A second try inside the first one, only for the email.
     try {
