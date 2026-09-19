@@ -1,0 +1,6 @@
+import express from "express";
+import {createTripPlan} from "../controllers/tripController.js";
+
+const tripRouter = express.Router();
+tripRouter.post("/", createTripPlan);
+export {tripRouter};
