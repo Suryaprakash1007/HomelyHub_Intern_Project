@@ -30,7 +30,7 @@ const sendMail = async (options) => {
   // process.env. A small typo, good one to spot.
   const transporter = nodemailer.createTransport({
     host: process.env.MAILTRAP_SMTP_HOST,
-    port: process.emit.MAILTRAP_SMTP_PORT,
+    port: Number(process.env.MAILTRAP_SMTP_PORT) || 2525,
     secure: false,
     auth: {
       user: process.env.MAILTRAP_SMTP_USER,
@@ -40,7 +40,7 @@ const sendMail = async (options) => {
 
   // The letter itself: from, to, subject and the body
   const mail = {
-    from: "<hello@homelyhub.in>",
+    from: '"Homely Hub" <hello@homelyhub.in>',
     to: options.email,
     subject: options.subject,
     text: emailText,
@@ -48,11 +48,10 @@ const sendMail = async (options) => {
   };
 
   try {
-    // send it. try/catch so a mail failure does not crash
-    // the whole server
     await transporter.sendMail(mail);
   } catch (error) {
     console.error("Email Failed", error);
+    throw error;
   }
 };
 

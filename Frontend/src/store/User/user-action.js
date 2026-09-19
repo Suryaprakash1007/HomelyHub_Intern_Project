@@ -50,13 +50,18 @@ export const UpdateUser = (user) => async (dispatch) => {
 export const updateUser = UpdateUser;
 
 export const forgetPassword = (email) => async (dispatch) => {
+  const payload = typeof email === "string" ? { email } : email;
   try {
-    await axiosInstance.post("/api/v1/rent/user/forgotPassword", email);
+    const { data } = await axiosInstance.post("/api/v1/rent/user/forgotPassword", payload);
+    return data;
   } catch (error) {
     try {
-      await axiosInstance.post("/api/v1/rent/user/forgetpassword", email);
+      const { data } = await axiosInstance.post("/api/v1/rent/user/forgetpassword", payload);
+      return data;
     } catch (err) {
-      dispatch(userActions.getError(err.response?.data?.message || err.message));
+      const msg = err.response?.data?.message || err.message;
+      dispatch(userActions.getError(msg));
+      throw new Error(msg);
     }
   }
 };

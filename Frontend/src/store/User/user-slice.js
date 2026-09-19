@@ -15,9 +15,10 @@ const userSlice = createSlice({
             state.loading = true;
         },
         getSignupDetails(state, action) {
-            state.user = action.payload;
-            state.isAuthenticated = true;
+            state.user = null;
+            state.isAuthenticated = false;
             state.loading = false;
+            state.success = true;
         },
         getLoginRequest(state){
             state.loading = true;
@@ -59,6 +60,7 @@ const userSlice = createSlice({
         },
         clearErrors(state){
             state.errors = null;
+            state.success = false;
         }
     }
 });

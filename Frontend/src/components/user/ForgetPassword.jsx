@@ -12,10 +12,17 @@ const ForgetPassword = () => {
     defaultValues: {
       email: "",
     },
-    onSubmit: ({ value }) => {
-      console.log(value);
-      dispatch(forgotPassword(value.email));
-      toast.success("Email Sent! Please Check your Email");
+    onSubmit: async ({ value }) => {
+      if (!value.email) {
+        toast.error("Please enter an email address");
+        return;
+      }
+      try {
+        const res = await dispatch(forgotPassword(value.email));
+        toast.success(res?.message || "If that email is registered, a reset link has been sent.");
+      } catch (err) {
+        toast.error(err.message || "Failed to send reset email");
+      }
     },
   });
 

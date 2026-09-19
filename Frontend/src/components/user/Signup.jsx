@@ -8,9 +8,7 @@ import { userActions } from "../../store/User/user-slice";
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {isAuthenticated, errors} = useSelector((state) => state.user);
-
-
+  const { isAuthenticated, errors, success } = useSelector((state) => state.user);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -41,11 +39,15 @@ const Signup = () => {
       toast.error(errors);
       dispatch(userActions.clearErrors());
     }
+    else if (success) {
+      toast.success("Signup successful! Please login.");
+      dispatch(userActions.clearErrors());
+      navigate("/login");
+    }
     else if (isAuthenticated) {
       navigate("/");
-      toast.success("Signup successful");
     }
-  }, [dispatch, errors, isAuthenticated, navigate]);
+  }, [dispatch, errors, isAuthenticated, success, navigate]);
 
 
 
