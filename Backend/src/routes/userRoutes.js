@@ -22,8 +22,11 @@ router.route("/login").post(login);
 router.route("/logout").get(logout);
 router.route("/updateMe").patch(protect, updateMe);
 router.route("/updateMyPassword").patch(protect, updatePassword);
+router.route("/updatepassword").patch(protect, updatePassword);
 router.route("/forgotPassword").post(forgotPassword);
+router.route("/forgetpassword").post(forgotPassword);
 router.route("/resetPassword/:token").patch(resetPassword);
+router.route("/resetpassword/:token").patch(resetPassword);
 router.route("/me").get(protect, check);
 router.route("/generateDescription").post(protect, writeDescription)
 

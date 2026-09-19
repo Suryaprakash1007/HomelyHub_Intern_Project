@@ -70,32 +70,14 @@ const createSendToken = (user, statusCode, res) => {
   const token = signinToken(user._id);
 
   // Step 2 - the rules for the cookie.
+  const isProd = process.env.NODE_ENV === "production" || Boolean(process.env.RENDER) || Boolean(process.env.PORT);
   const cookieOptions = {
-    // When should the browser throw this cookie away?
-    // Date.now() is right now in milliseconds. Then
-    // days * 24 hours * 60 minutes * 60 seconds * 1000 turns
-    // JWT_COOKIE_EXPIRES_IN (a number of days) into milliseconds.
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() + (Number(process.env.JWT_COOKIE_EXPIRES_IN) || 90) * 24 * 60 * 60 * 1000
     ),
-
-    // httpOnly: true = JavaScript in the browser CANNOT read
-    // this cookie. Only the browser can send it back to us.
-    // This stops a bad script on the page from stealing the
-    // token. This one line is real security, not decoration.
     httpOnly: true,
-
-    // sameSite decides whether the cookie is sent when the
-    // request comes from a different website address.
-    // On the live site the frontend and backend sit on
-    // different addresses, so we need "none".
-    // On our laptop both are localhost, so "lax" is fine.
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-
-    // secure: true = only send this cookie over https.
-    // On the laptop we use plain http, so it must be false
-    // there, otherwise the cookie would never arrive.
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd,
   };
 
   // Step 3 - attach the cookie to the reply.

@@ -51,25 +51,37 @@ export const updateUser = UpdateUser;
 
 export const forgetPassword = (email) => async (dispatch) => {
   try {
-    await axiosInstance.post("/api/v1/rent/user/forgetpassword", email);
+    await axiosInstance.post("/api/v1/rent/user/forgotPassword", email);
   } catch (error) {
-    dispatch(userActions.getError(error.response?.data?.message || error.message));
+    try {
+      await axiosInstance.post("/api/v1/rent/user/forgetpassword", email);
+    } catch (err) {
+      dispatch(userActions.getError(err.response?.data?.message || err.message));
+    }
   }
 };
 export const forgotPassword = forgetPassword;
 
 export const resetPassword = (repassword, token) => async (dispatch) => {
   try {
-    await axiosInstance.patch(`/api/v1/rent/user/resetpassword/${token}`, repassword);
+    await axiosInstance.patch(`/api/v1/rent/user/resetPassword/${token}`, repassword);
   } catch (error) {
-    dispatch(userActions.getError(error.response?.data?.message || error.message));
+    try {
+      await axiosInstance.patch(`/api/v1/rent/user/resetpassword/${token}`, repassword);
+    } catch (err) {
+      dispatch(userActions.getError(err.response?.data?.message || err.message));
+    }
   }
 };
 
 export const updatePassword = (passwords) => async (dispatch) => {
   try {
     dispatch(userActions.getPasswordRequest());
-    await axiosInstance.patch("/api/v1/rent/user/updatepassword", passwords);
+    try {
+      await axiosInstance.patch("/api/v1/rent/user/updateMyPassword", passwords);
+    } catch {
+      await axiosInstance.patch("/api/v1/rent/user/updatepassword", passwords);
+    }
     dispatch(userActions.getPasswordSuccess(true));
   } catch (error) {
     dispatch(userActions.getError(error.response?.data?.message || error.message));
