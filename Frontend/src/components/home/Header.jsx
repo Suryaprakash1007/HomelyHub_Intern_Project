@@ -19,7 +19,7 @@ const Header = () => {
   const logoutUser = () => {
     dispatch(logout());
     toast.success("User has loggedout successfully");
-    navigate("/");
+    navigate("/login");
   };
 
   const refreshFunction = () => {
