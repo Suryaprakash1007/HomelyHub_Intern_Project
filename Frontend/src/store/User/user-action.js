@@ -70,12 +70,10 @@ export const forgotPassword = forgetPassword;
 export const resetPassword = (repassword, token) => async (dispatch) => {
   try {
     const { data } = await axiosInstance.patch(`/api/v1/rent/user/resetPassword/${token}`, repassword);
-    if (data?.user) dispatch(userActions.getLoginDetails(data.user));
     return data;
   } catch (error) {
     try {
       const { data } = await axiosInstance.patch(`/api/v1/rent/user/resetpassword/${token}`, repassword);
-      if (data?.user) dispatch(userActions.getLoginDetails(data.user));
       return data;
     } catch (err) {
       const msg = err.response?.data?.error || err.response?.data?.message || err.message;
