@@ -3,7 +3,7 @@ import propertyReducer from "./Property/property-slice";
 import propertyDetailsSlice from "./PropertyDetails/propertyDetails-slice";
 import userSlice from "./User/user-slice";
 import bookingSlice from "./Booking/booking-slice";
-import accommodationSlice from "./Accommodation/Accommodation-slice";
+import accomodationSlice from "./Accomodation/Accomodation-slice";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ const store = configureStore({
     propertydetails: propertyDetailsSlice.reducer,
     user: userSlice.reducer,
     booking: bookingSlice.reducer,
-    accommodation: accommodationSlice.reducer,
+    accomodation: accomodationSlice.reducer,
   },
 });
 
