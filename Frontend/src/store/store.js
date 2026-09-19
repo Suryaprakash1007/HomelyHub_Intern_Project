@@ -3,7 +3,7 @@ import propertyReducer from "./Property/property-slice";
 import propertyDetailsSlice from "./PropertyDetails/propertyDetails-slice";
 import userSlice from "./User/user-slice";
 import bookingSlice from "./Booking/booking-slice";
-import accommodationSlice from "./Accommodation/accommodation-slice";
+import accommodationSlice from "./Accommodation/Accommodation-slice";
 
 const store = configureStore({
   reducer: {
