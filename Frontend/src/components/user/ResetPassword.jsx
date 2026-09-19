@@ -14,11 +14,14 @@ const ResetPassword = () => {
       password: "",
       passwordConfirm: "",
     },
-    onSubmit: ({ value }) => {
-      console.log(value);
-      dispatch(resetPassword(value, token));
-      toast.success("Password has been changed successfully");
-      navigate("/login");
+    onSubmit: async ({ value }) => {
+      try {
+        await dispatch(resetPassword(value, token));
+        toast.success("Password has been changed successfully! Please login.");
+        navigate("/login");
+      } catch (err) {
+        toast.error(err.message || "Failed to reset password. Token may be invalid or expired.");
+      }
     },
   });
 

@@ -69,12 +69,18 @@ export const forgotPassword = forgetPassword;
 
 export const resetPassword = (repassword, token) => async (dispatch) => {
   try {
-    await axiosInstance.patch(`/api/v1/rent/user/resetPassword/${token}`, repassword);
+    const { data } = await axiosInstance.patch(`/api/v1/rent/user/resetPassword/${token}`, repassword);
+    if (data?.user) dispatch(userActions.getLoginDetails(data.user));
+    return data;
   } catch (error) {
     try {
-      await axiosInstance.patch(`/api/v1/rent/user/resetpassword/${token}`, repassword);
+      const { data } = await axiosInstance.patch(`/api/v1/rent/user/resetpassword/${token}`, repassword);
+      if (data?.user) dispatch(userActions.getLoginDetails(data.user));
+      return data;
     } catch (err) {
-      dispatch(userActions.getError(err.response?.data?.message || err.message));
+      const msg = err.response?.data?.error || err.response?.data?.message || err.message;
+      dispatch(userActions.getError(msg));
+      throw new Error(msg);
     }
   }
 };

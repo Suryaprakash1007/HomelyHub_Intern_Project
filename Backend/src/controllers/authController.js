@@ -298,7 +298,7 @@ const forgotPassword = async (req, res) => {
     try {
       await sendMail({
         email: user.email,
-        subject: "Reset your Password (valid for 10 mins)",
+        subject: "Reset your Password (valid for 60 mins)",
         mailGenContent: forgotPasswordMailGenContent(user.name, resetURL),
       });
       // Mail failed. The user has no link, but a reset token is
@@ -337,7 +337,7 @@ const resetPassword = async (req, res) => {
 
     // One search, two conditions: the hash must match AND the
     // expiry must still be in the future. $gt = greater than.
-    // This is how the 10 minute limit is enforced.
+    // This is how the 60 minute limit is enforced.
     const user = await User.findOne({
       passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() },
@@ -349,8 +349,8 @@ const resetPassword = async (req, res) => {
     }
 
     // Set the new password and confirm
-    ((user.password = req.body.password),
-      (user.passwordConfirm = req.body.passwordConfirm));
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
     // Wipe the token so the same link cannot be used twice
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
