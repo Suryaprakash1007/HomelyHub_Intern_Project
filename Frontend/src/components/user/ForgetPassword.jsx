@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import "../../css/ForgetPassword.css";
 import { Field, useForm } from "@tanstack/react-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../store/User/user-action";
 import toast from "react-hot-toast";
 
 const ForgetPassword = () => {
   const { errors } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -18,8 +20,9 @@ const ForgetPassword = () => {
         return;
       }
       try {
-        const res = await dispatch(forgotPassword(value.email));
-        toast.success(res?.message || "If that email is registered, a reset link has been sent.");
+        await dispatch(forgotPassword(value.email));
+        toast.success("Check your email to reset your password.");
+        navigate("/login");
       } catch (err) {
         toast.error(err.message || "Failed to send reset email");
       }

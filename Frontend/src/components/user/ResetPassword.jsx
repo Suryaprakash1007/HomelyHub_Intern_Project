@@ -17,8 +17,7 @@ const ResetPassword = () => {
     onSubmit: async ({ value }) => {
       try {
         await dispatch(resetPassword(value, token));
-        toast.success("Password has been changed successfully! Please login.");
-        navigate("/login");
+        toast.success("Password reset successfully! Please go to login page to login.");
       } catch (err) {
         toast.error(err.message || "Failed to reset password. Token may be invalid or expired.");
       }
